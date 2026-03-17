@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Navbar() {
+// NEW: Accept the onLogout prop
+export default function Navbar({ username, onLogout }) {
+  // NEW: State to toggle the logout dropdown menu
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const displayName = username || 'User';
+  const initial = displayName.charAt(0).toUpperCase();
+
   return (
     <header style={{
       height: '70px',
@@ -24,17 +31,61 @@ export default function Navbar() {
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: '500' }}>
-          Hello, Patient
+          Hello, {displayName}
         </span>
-        <div style={{ 
-            width: '40px', height: '40px', borderRadius: '50%', 
-            backgroundColor: 'var(--primary-light)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            color: 'var(--primary)', fontWeight: 'bold', border: '2px solid #fff',
-            boxShadow: 'var(--shadow-sm)', cursor: 'pointer'
-          }}>
-          P
+        
+        {/* NEW: Wrap avatar in a relative div to position the dropdown */}
+        <div style={{ position: 'relative' }}>
+          <div 
+            onClick={() => setShowDropdown(!showDropdown)} // NEW: Toggle dropdown on click
+            style={{ 
+              width: '40px', height: '40px', borderRadius: '50%', 
+              backgroundColor: 'var(--primary-light)', display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+              color: 'var(--primary)', fontWeight: 'bold', border: '2px solid #fff',
+              boxShadow: 'var(--shadow-sm)', cursor: 'pointer', textTransform: 'uppercase'
+            }}>
+            {initial}
+          </div>
+
+          {/* NEW: Logout Dropdown Menu */}
+          {showDropdown && (
+            <div className="animate-fade-in" style={{
+              position: 'absolute',
+              top: '50px',
+              right: '0',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              boxShadow: 'var(--shadow-md)',
+              padding: '8px',
+              minWidth: '120px',
+              zIndex: 20
+            }}>
+              <button 
+                onClick={onLogout} 
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  backgroundColor: 'transparent',
+                  color: 'var(--danger)',
+                  border: 'none',
+                  borderRadius: '6px',
+                  textAlign: 'left',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--danger-light)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
+
       </div>
     </header>
   );
