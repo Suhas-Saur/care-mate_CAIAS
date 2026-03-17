@@ -1,67 +1,70 @@
+import os
 import shutil
-from pathlib import Path
+from datetime import datetime
 from fastapi import APIRouter, File, UploadFile, HTTPException
 
-# 1. Initialize the router
 router = APIRouter()
 
-# 2. Define the directory where uploads will be saved
-UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Ensure the 'uploads' directory exists. 
-# parents=True creates any necessary parent folders, exist_ok=True prevents errors if it already exists.
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-
-# 3. Create the POST endpoint for file uploads
-@router.post("/upload-record", summary="Upload a medical record")
+@router.post("/upload-record")
 async def upload_record(file: UploadFile = File(...)):
-    """
-    Accepts a file upload (e.g., PDF, image, or text) and saves it securely 
-    to the local 'uploads' directory.
-    """
     try:
-        # Create the full destination path for the file
-        file_path = UPLOAD_DIR / file.filename
-        
-        # Open the destination file in write-binary mode and copy the contents
-        with file_path.open("wb") as buffer:
+        file_path = os.path.join(UPLOAD_DIR, file.filename)
+        with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-            
-        return {
-            "status": "success",
-            "message": "File uploaded successfully.",
-            "filename": file.filename
-        }
-        
+        return {"status": "success", "message": "File uploaded successfully", "filename": file.filename}
     except Exception as e:
-        # Catch file writing or permission errors
-        raise HTTPException(
-            status_code=500, 
-            detail=f"An error occurred while saving the file: {str(e)}"
-        )
-    finally:
-        # Always close the uploaded file to free up server memory/resources
-        file.file.close()
+        raise HTTPException(status_code=500, detail=f"Failed to upload file: {str(e)}")
 
-
-# 4. Create the GET endpoint to list uploaded files
-@router.get("/", summary="List all uploaded medical records")
+@router.get("/records")
 async def list_records():
-    """
-    Scans the 'uploads' directory and returns a list of all saved file names.
-    """
     try:
-        # Iterate through the directory and extract names of files (ignoring subdirectories)
-        files = [f.name for f in UPLOAD_DIR.iterdir() if f.is_file()]
-        
-        return {
-            "status": "success",
-            "total_records": len(files),
-            "data": files
-        }
-        
+        files = []
+        for filename in os.listdir(UPLOAD_DIR):
+            file_path = os.path.join(UPLOAD_DIR, filename)
+            if os.path.isfile(file_path):
+                size_kb = round(os.path.getsize(file_path) / 1024, 2)
+                mod_time = os.path.getmtime(file_path)
+                upload_date = datetime.fromtimestamp(mod_time).strftime("%Y-%m-%d %H:%M:%S")
+                files.append({
+                    "filename": filename,
+                    "url": f"http://localhost:8000/uploads/{filename}",
+                    "size_kb": size_kb,
+                    "upload_date": upload_date
+                })
+        files.sort(key=lambda x: x["upload_date"], reverse=True)
+        return {"status": "success", "data": files}
     except Exception as e:
-        raise HTTPException(
-            status_code=500, 
-            detail=f"An error occurred while retrieving records: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Failed to fetch records: {str(e)}")
+
+# --- NEW: Delete a single file ---
+@router.delete("/records/{filename}")
+async def delete_record(filename: str):
+    try:
+        # Secure the filename to prevent directory traversal attacks
+        secure_filename = os.path.basename(filename)
+        file_path = os.path.join(UPLOAD_DIR, secure_filename)
+        
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            os.remove(file_path)
+            return {"status": "success", "message": f"Deleted {secure_filename}"}
+        else:
+            raise HTTPException(status_code=404, detail="File not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete file: {str(e)}")
+
+# --- NEW: Delete all files ---
+@router.delete("/records")
+async def delete_all_records():
+    try:
+        deleted_count = 0
+        for filename in os.listdir(UPLOAD_DIR):
+            file_path = os.path.join(UPLOAD_DIR, filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                deleted_count += 1
+        return {"status": "success", "message": f"Deleted {deleted_count} records"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete all files: {str(e)}")
