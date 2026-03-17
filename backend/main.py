@@ -11,6 +11,21 @@ app = FastAPI(
     version="1.0.0"
 )
 
+from fastapi.middleware.cors import CORSMiddleware
+
+# ... (your app = FastAPI(...) code) ...
+
+# Configure CORS so the React frontend can communicate with this backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], # Your Vite frontend URL
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"], # Allows all headers
+)
+
+# ... (your app.include_router(...) code) ...
+
 # 2. Include routers
 # Prefixes keep URLs organized (e.g., /api/symptoms). 
 # Tags group related endpoints together in the auto-generated documentation.
