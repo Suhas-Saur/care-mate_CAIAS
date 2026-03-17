@@ -5,178 +5,97 @@ export default function MedicalRecords() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
   const [records, setRecords] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  
-  // NEW: Search state
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    fetchRecords();
-  }, []);
+  useEffect(() => { fetchRecords(); }, []);
 
   const fetchRecords = async () => {
-    try {
-      setIsFetching(true);
-      const data = await getMedicalRecords();
-      setRecords(data);
-    } catch (err) {
-      console.error("Failed to load records:", err);
-    } finally {
-      setIsFetching(false);
-    }
+    try { setIsFetching(true); const data = await getMedicalRecords(); setRecords(data); } 
+    catch (err) { console.error(err); } 
+    finally { setIsFetching(false); }
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      setStatus(null);
-    }
-  };
+  const handleFileChange = (e) => { if (e.target.files.length > 0) { setFile(e.target.files[0]); setStatus(null); } };
 
   const handleUpload = async (e) => {
-    e.preventDefault();
-    if (!file) return;
-
+    e.preventDefault(); if (!file) return;
     setIsLoading(true);
     try {
       const result = await uploadMedicalRecord(file);
       setStatus({ type: 'success', message: result.message });
-      setFile(null);
-      document.getElementById('file-upload').value = ''; 
-      fetchRecords(); // Refresh list after upload
-    } catch (err) {
-      console.error(err);
-      setStatus({ type: 'error', message: 'Failed to upload document.' });
-    } finally {
-      setIsLoading(false);
-    }
+      setFile(null); document.getElementById('file-upload').value = ''; fetchRecords();
+    } catch (err) { setStatus({ type: 'error', message: 'Upload failed.' }); } 
+    finally { setIsLoading(false); }
   };
 
-  // --- NEW: Delete Single File Handler ---
   const handleDelete = async (filename) => {
-    const isConfirmed = window.confirm(`Are you sure you want to delete "${filename}"?`);
-    if (!isConfirmed) return;
-
-    try {
-      await deleteRecord(filename);
-      setStatus({ type: 'success', message: `Deleted ${filename}` });
-      fetchRecords(); // Refresh list to remove the deleted item
-    } catch (err) {
-      console.error(err);
-      setStatus({ type: 'error', message: 'Failed to delete file.' });
-    }
+    if (!window.confirm(`Delete "${filename}"?`)) return;
+    try { await deleteRecord(filename); fetchRecords(); } catch (err) { console.error(err); }
   };
 
-  // --- NEW: Delete All Files Handler ---
   const handleDeleteAll = async () => {
-    const isConfirmed = window.confirm("Are you sure you want to delete ALL uploaded records? This cannot be undone.");
-    if (!isConfirmed) return;
-
-    try {
-      await deleteAllRecords();
-      setStatus({ type: 'success', message: 'All records have been deleted.' });
-      fetchRecords(); // Refresh list (it will be empty)
-    } catch (err) {
-      console.error(err);
-      setStatus({ type: 'error', message: 'Failed to delete all files.' });
-    }
+    if (!window.confirm("Delete ALL records? This cannot be undone.")) return;
+    try { await deleteAllRecords(); fetchRecords(); } catch (err) { console.error(err); }
   };
 
-  // --- NEW: Dynamic Search Filter ---
-  const filteredRecords = records.filter(rec => 
-    rec.filename.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredRecords = records.filter(rec => rec.filename.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
-      <h2 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>Medical Records</h2>
-      <p style={{ color: '#64748b', marginBottom: '24px' }}>Securely upload and manage your health documents.</p>
+    <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      
+      <header>
+        <h2 style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '-0.5px' }}>Medical Records</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>Securely manage your health documents and reports.</p>
+      </header>
 
-      {/* Upload Section */}
-      <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0', marginBottom: '32px' }}>
-        <h3 style={{ fontSize: '1.25rem', marginBottom: '16px' }}>Upload New Record</h3>
-        <form onSubmit={handleUpload} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <input 
-            id="file-upload"
-            type="file" 
-            onChange={handleFileChange} 
-            disabled={isLoading}
-            style={{ padding: '12px', border: '2px dashed #cbd5e1', borderRadius: '8px', cursor: 'pointer', backgroundColor: '#f8fafc' }}
-          />
-          <button 
-            type="submit" 
-            disabled={!file || isLoading}
-            style={{ padding: '12px', backgroundColor: '#0ea5e9', color: '#fff', border: 'none', borderRadius: '8px', cursor: (!file || isLoading) ? 'not-allowed' : 'pointer', opacity: (!file || isLoading) ? 0.6 : 1, fontWeight: 'bold' }}
-          >
-            {isLoading ? 'Uploading...' : 'Upload Record'}
+      {/* Upload Area */}
+      <div style={{ backgroundColor: 'var(--surface)', padding: '32px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
+        <form onSubmit={handleUpload} style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, position: 'relative' }}>
+             <input id="file-upload" type="file" onChange={handleFileChange} disabled={isLoading}
+              style={{ width: '100%', padding: '16px', border: '2px dashed #cbd5e1', borderRadius: '12px', cursor: 'pointer', backgroundColor: 'var(--bg-main)', color: 'var(--text-main)', outline: 'none', transition: 'border 0.2s' }} />
+          </div>
+          <button type="submit" disabled={!file || isLoading}
+            style={{ padding: '16px 32px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '12px', cursor: (!file || isLoading) ? 'not-allowed' : 'pointer', opacity: (!file || isLoading) ? 0.6 : 1, fontWeight: '700', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)', whiteSpace: 'nowrap' }}>
+            {isLoading ? 'Uploading...' : 'Upload File'}
           </button>
         </form>
-
-        {status && (
-          <div style={{ marginTop: '16px', padding: '12px', borderRadius: '8px', backgroundColor: status.type === 'success' ? '#dcfce7' : '#fee2e2', color: status.type === 'success' ? '#166534' : '#b91c1c' }}>
-            {status.message}
-          </div>
-        )}
+        {status && <div style={{ marginTop: '16px', padding: '12px 16px', borderRadius: '8px', backgroundColor: status.type === 'success' ? 'var(--success-light)' : 'var(--danger-light)', color: status.type === 'success' ? 'var(--success)' : 'var(--danger)', fontWeight: '500' }}>{status.message}</div>}
       </div>
 
-      {/* Documents List Section */}
-      <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+      {/* Database Area */}
+      <div style={{ backgroundColor: 'var(--surface)', padding: '32px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
         
-        {/* NEW: Header with Search and Delete All */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-          <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Your Documents</h3>
-          
-          <input 
-            type="text"
-            placeholder="Search files..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', flex: '1 1 200px', maxWidth: '300px' }}
-          />
-
-          {records.length > 0 && (
-            <button 
-              onClick={handleDeleteAll}
-              style={{ padding: '8px 16px', backgroundColor: '#fee2e2', color: '#b91c1c', border: '1px solid #f87171', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
-            >
-              Delete All
-            </button>
-          )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Database</h3>
+          <div style={{ display: 'flex', gap: '12px', flex: '1 1 200px', justifyContent: 'flex-end' }}>
+            <input type="text" placeholder="🔍 Search files..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ padding: '10px 16px', borderRadius: '20px', border: '1px solid var(--border)', backgroundColor: 'var(--bg-main)', outline: 'none', width: '100%', maxWidth: '300px', fontSize: '0.95rem' }} />
+            {records.length > 0 && (
+              <button onClick={handleDeleteAll} style={{ padding: '10px 20px', backgroundColor: '#fff', color: 'var(--danger)', border: '1px solid var(--danger-light)', borderRadius: '20px', cursor: 'pointer', fontWeight: '600', transition: 'all 0.2s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--danger-light)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#fff'; }}>
+                Delete All
+              </button>
+            )}
+          </div>
         </div>
         
-        {isFetching ? (
-          <p style={{ color: '#64748b' }}>Loading records...</p>
-        ) : filteredRecords.length === 0 ? (
-          <p style={{ color: '#64748b' }}>{searchTerm ? 'No matching records found.' : 'No records uploaded yet.'}</p>
-        ) : (
+        {isFetching ? ( <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>Loading secure records...</p> ) 
+        : filteredRecords.length === 0 ? ( <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '40px', backgroundColor: 'var(--bg-main)', borderRadius: '12px' }}>{searchTerm ? 'No matching files found.' : 'Your database is empty.'}</p> ) 
+        : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filteredRecords.map((rec, index) => (
-              <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', border: '1px solid #e2e8f0', borderRadius: '8px', backgroundColor: '#f8fafc', flexWrap: 'wrap', gap: '12px' }}>
+              <div key={index} className="animate-fade-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', border: '1px solid var(--border)', borderRadius: '12px', backgroundColor: 'var(--bg-main)', transition: 'transform 0.2s' }}
+                 onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(4px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: '600', color: '#0f172a', margin: 0, wordBreak: 'break-all' }}>{rec.filename}</p>
-                  <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '4px 0 0 0' }}>
-                    Uploaded: {rec.upload_date} • {rec.size_kb} KB
-                  </p>
+                  <p style={{ fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>{rec.filename}</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>{rec.upload_date} • {rec.size_kb} KB</p>
                 </div>
-                
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <a 
-                    href={rec.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ padding: '8px 16px', backgroundColor: '#e2e8f0', color: '#334155', textDecoration: 'none', borderRadius: '6px', fontSize: '0.9rem', fontWeight: '500' }}
-                  >
-                    View
-                  </a>
-                  {/* NEW: Individual Delete Button */}
-                  <button 
-                    onClick={() => handleDelete(rec.filename)}
-                    style={{ padding: '8px 16px', backgroundColor: '#fff', color: '#ef4444', border: '1px solid #fca5a5', borderRadius: '6px', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }}
-                  >
-                    Delete
-                  </button>
+                  <a href={rec.url} target="_blank" rel="noopener noreferrer" style={{ padding: '8px 20px', backgroundColor: '#fff', color: 'var(--primary)', border: '1px solid var(--border)', textDecoration: 'none', borderRadius: '8px', fontSize: '0.9rem', fontWeight: '600', boxShadow: 'var(--shadow-sm)' }}>View</a>
+                  <button onClick={() => handleDelete(rec.filename)} style={{ padding: '8px 20px', backgroundColor: '#fff', color: 'var(--danger)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '0.9rem', fontWeight: '600', cursor: 'pointer', boxShadow: 'var(--shadow-sm)' }}>Delete</button>
                 </div>
               </div>
             ))}
