@@ -5,11 +5,12 @@ export default function Login({ onLogin, onNavigateRegister }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Pre-populate a demo user if the database is completely empty
+  // Pre-populate a demo patient and doctor if empty
   useEffect(() => {
     const existingUsers = JSON.parse(localStorage.getItem('caremate_users') || '{}');
     if (Object.keys(existingUsers).length === 0) {
-      existingUsers['admin'] = 'admin123';
+      existingUsers['admin'] = { password: 'admin123', role: 'patient' };
+      existingUsers['doctor'] = { password: 'doctor123', role: 'doctor' };
       localStorage.setItem('caremate_users', JSON.stringify(existingUsers));
     }
   }, []);
@@ -25,10 +26,25 @@ export default function Login({ onLogin, onNavigateRegister }) {
 
     setTimeout(() => {
       const users = JSON.parse(localStorage.getItem('caremate_users') || '{}');
+      const userRecord = users[credentials.username];
       
-      // Check if username exists and password matches
-      if (users[credentials.username] && users[credentials.username] === credentials.password) {
-        onLogin(credentials.username);
+      let passwordMatches = false;
+      let role = 'patient';
+      
+      if (userRecord) {
+        if (typeof userRecord === 'object' && userRecord !== null) {
+          passwordMatches = userRecord.password === credentials.password;
+          role = userRecord.role || 'patient';
+        } else {
+          // Fallback for simple legacy text passwords
+          passwordMatches = userRecord === credentials.password;
+          role = 'patient';
+        }
+      }
+      
+      // Check if credentials match
+      if (passwordMatches) {
+        onLogin(credentials.username, role);
       } else {
         setError('Invalid username or password. Please try again.');
         setIsLoading(false);
@@ -59,6 +75,12 @@ export default function Login({ onLogin, onNavigateRegister }) {
             {isLoading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px', backgroundColor: 'var(--bg-main)', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+          <p style={{ fontWeight: 'bold', margin: 0, color: 'var(--text-main)' }}>Demo accounts:</p>
+          <p style={{ margin: 0 }}>• Patient: <code style={{ fontWeight: 'bold' }}>admin</code> / <code style={{ fontWeight: 'bold' }}>admin123</code></p>
+          <p style={{ margin: 0 }}>• Doctor: <code style={{ fontWeight: 'bold' }}>doctor</code> / <code style={{ fontWeight: 'bold' }}>doctor123</code></p>
+        </div>
 
         <div style={{ textAlign: 'center', marginTop: '8px' }}>
           <button onClick={onNavigateRegister} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: '0.9rem', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Register({ onNavigateLogin }) {
-  const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
+  const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '', role: 'patient' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +31,11 @@ export default function Register({ onNavigateLogin }) {
         return;
       }
 
-      // Save new user
-      existingUsers[formData.username] = formData.password;
+      // Save new user as an object with password and role
+      existingUsers[formData.username] = {
+        password: formData.password,
+        role: formData.role
+      };
       localStorage.setItem('caremate_users', JSON.stringify(existingUsers));
 
       setSuccess(true);
@@ -66,6 +69,13 @@ export default function Register({ onNavigateLogin }) {
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div><label style={labelStyle}>Username</label><input type="text" name="username" value={formData.username} onChange={handleChange} required style={inputStyle} /></div>
+            <div>
+              <label style={labelStyle}>Role / Account Type</label>
+              <select name="role" value={formData.role} onChange={handleChange} style={inputStyle}>
+                <option value="patient">Patient</option>
+                <option value="doctor">Doctor</option>
+              </select>
+            </div>
             <div><label style={labelStyle}>Password</label><input type="password" name="password" value={formData.password} onChange={handleChange} required style={inputStyle} /></div>
             <div><label style={labelStyle}>Confirm Password</label><input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required style={inputStyle} /></div>
 

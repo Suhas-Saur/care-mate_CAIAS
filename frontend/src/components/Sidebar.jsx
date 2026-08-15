@@ -1,12 +1,21 @@
 import React from 'react';
 
-export default function Sidebar({ currentPage, setCurrentPage }) {
-  const navItems = [
+export default function Sidebar({ currentPage, setCurrentPage, userRole }) {
+  const patientItems = [
     { id: 'Dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'SymptomChecker', label: 'Symptom Checker', icon: '🩺' },
     { id: 'DietRecommendation', label: 'Diet Plan', icon: '🥗' },
     { id: 'MedicalRecords', label: 'Medical Records', icon: '📁' },
+    { id: 'ConsultDoctor', label: 'Consult Doctor', icon: '💬' },
   ];
+
+  const doctorItems = [
+    { id: 'DoctorDashboard', label: 'Dashboard', icon: '📊' },
+    { id: 'PatientDirectory', label: 'Patient Directory', icon: '👥' },
+    { id: 'DoctorConsultations', label: 'Consultations', icon: '📥' },
+  ];
+
+  const navItems = userRole === 'doctor' ? doctorItems : patientItems;
 
   return (
     <aside style={{
