@@ -24,9 +24,14 @@
 
 ---
 
-## ⚡ Quick Demo Access
+## ⚡ Quick Demo Access & Instant 1-Click Login
 
-Test both **Patient** and **Doctor** roles instantly using pre-populated demo credentials:
+Access both **Patient** and **Doctor** portals instantly with **1-Click Quick Login** buttons directly on the login page:
+
+* **⚡ Instant 1-Click Patient Demo**: Click `🧑‍🤝‍🧑 Patient Demo` on the login screen to enter immediately.
+* **⚡ Instant 1-Click Doctor Demo**: Click `🩺 Doctor Demo` on the login screen to enter immediately.
+
+Alternatively, test manual login using the pre-populated demo credentials:
 
 | Role | Username | Password | Features Accessible |
 | :--- | :--- | :--- | :--- |
