@@ -24,15 +24,20 @@
 
 ---
 
-## 🌐 Local Live Demo Links
+## 📱 GitHub Mobile App & Local Access Notice
 
-> ℹ️ **Important Note**: The links below connect to the local server running on your computer (`localhost`). To open the demo, follow the **[2-Step Quick Start](#-quick-start--how-to-run-the-local-demo)** below to launch the servers.
+> ⚠️ **Viewing on GitHub Mobile App or Phone?**
+> `localhost` links **only open on the desktop machine** running the local server. A mobile phone on GitHub Mobile cannot open `localhost`.
+> 
+> * **📱 Mobile Access (Same Wi-Fi Network)**: Ensure your development server is running and open **[http://192.168.31.174:5173/](http://192.168.31.174:5173/)** on your phone!
+> * **💻 Desktop Access**: Open **[http://localhost:5173/](http://localhost:5173/)** in your desktop web browser.
+> * **🌐 Public 24/7 Web Hosting**: See **[Free Web Deployment Guide](#-free-public-web-deployment-optional)** below to deploy a public URL accessible from anywhere on mobile.
 
-| Component | Port / URL | Description | Requirements |
+| Component | Desktop Link | Mobile / Network Link | Requirements |
 | :--- | :--- | :--- | :--- |
-| **Frontend App Portal** | [`http://localhost:5173/`](http://localhost:5173/) | React + Vite UI Portal | Run `npm run dev` in `/frontend` |
-| **Backend API Server** | [`http://localhost:8000/`](http://localhost:8000/) | FastAPI Server | Run `uvicorn main:app` in `/backend` |
-| **Interactive API Docs** | [`http://localhost:8000/docs`](http://localhost:8000/docs) | OpenAPI / Swagger UI | Backend Server Running |
+| **Frontend App Portal** | [`http://localhost:5173/`](http://localhost:5173/) | [`http://192.168.31.174:5173/`](http://192.168.31.174:5173/) | Run `npm run dev` in `/frontend` |
+| **Backend API Server** | [`http://localhost:8000/`](http://localhost:8000/) | [`http://192.168.31.174:8000/`](http://192.168.31.174:8000/) | Run `uvicorn main:app` in `/backend` |
+| **Interactive API Docs** | [`http://localhost:8000/docs`](http://localhost:8000/docs) | [`http://192.168.31.174:8000/docs`](http://192.168.31.174:8000/docs) | Backend Server Running |
 
 ---
 
