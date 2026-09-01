@@ -12,7 +12,7 @@
 
 ---
 
-**[🌐 Local Host Demo Link](http://localhost:5173/)** &nbsp;|&nbsp; **[📄 API Documentation (Swagger)](http://localhost:8000/docs)** &nbsp;|&nbsp; **[📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)**
+**[💻 Local Demo (http://localhost:5173)](http://localhost:5173/)** &nbsp;|&nbsp; **[📄 API Docs (http://localhost:8000/docs)](http://localhost:8000/docs)** &nbsp;|&nbsp; **[📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)**
 
 </div>
 
@@ -21,6 +21,18 @@
 ## 📖 Overview
 
 **CareMate AI** is a comprehensive, dual-role digital healthcare platform bridging the gap between patients and healthcare professionals. Designed with a modern user experience and powered by artificial intelligence, CareMate AI provides preliminary medical assessments, personalized nutrition plans, secure medical document storage, and seamless doctor-patient consultations.
+
+---
+
+## 🌐 Local Live Demo Links
+
+> ℹ️ **Important Note**: The links below connect to the local server running on your computer (`localhost`). To open the demo, follow the **[2-Step Quick Start](#-quick-start--how-to-run-the-local-demo)** below to launch the servers.
+
+| Component | Port / URL | Description | Requirements |
+| :--- | :--- | :--- | :--- |
+| **Frontend App Portal** | [`http://localhost:5173/`](http://localhost:5173/) | React + Vite UI Portal | Run `npm run dev` in `/frontend` |
+| **Backend API Server** | [`http://localhost:8000/`](http://localhost:8000/) | FastAPI Server | Run `uvicorn main:app` in `/backend` |
+| **Interactive API Docs** | [`http://localhost:8000/docs`](http://localhost:8000/docs) | OpenAPI / Swagger UI | Backend Server Running |
 
 ---
 
@@ -97,7 +109,7 @@ graph TD
 
 ---
 
-## 🚀 Installation & Local Setup
+## 🚀 Quick Start / How to Run the Local Demo
 
 ### Prerequisites
 * **Node.js** (v18 or higher)
@@ -109,41 +121,43 @@ git clone https://github.com/Suhas-Saur/care-mate_CAIAS.git
 cd care-mate_CAIAS
 ```
 
-### 2. Backend Setup
+### 2. Start Backend API Server
 ```bash
-# Navigate to backend directory
 cd backend
-
-# Create & activate Python virtual environment
 python -m venv ../venv
-# On Windows PowerShell:
+
+# On Windows:
 ..\venv\Scripts\Activate.ps1
 # On Linux/macOS:
 source ../venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Create .env file (Optional - for real Gemini API key)
-# GEMINI_API_KEY=your_google_gemini_api_key
-
-# Start backend server
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-### 3. Frontend Setup
+### 3. Start Frontend UI Portal
 ```bash
-# Navigate to frontend directory in a new terminal window
+# In a new terminal window:
 cd frontend
-
-# Install Node dependencies
 npm install
-
-# Start Vite dev server
 npm run dev
 ```
 
-Open **[http://localhost:5173/](http://localhost:5173/)** in your web browser to explore CareMate AI!
+Once started, open **[http://localhost:5173/](http://localhost:5173/)** in your browser!
+
+---
+
+## 🌐 Free Public Web Deployment (Optional)
+
+To host CareMate AI online 24/7 so anyone can access it without running `localhost`:
+
+1. **Frontend (Vercel / Netlify)**:
+   - Import the `frontend` folder into [Vercel](https://vercel.com) or [Netlify](https://netlify.com).
+   - Framework Preset: `Vite`. Build Command: `npm run build`. Output Directory: `dist`.
+2. **Backend (Render / Railway / Render.com)**:
+   - Import the `backend` folder into [Render Web Service](https://render.com).
+   - Build Command: `pip install -r requirements.txt`.
+   - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`.
 
 ---
 
