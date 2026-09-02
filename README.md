@@ -10,7 +10,7 @@
 
 ---
 
-[🌐 Live Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/) | [📄 API Docs (Swagger)](http://localhost:8000/docs) | [📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)
+[🌐 Live Production Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/) | [📄 API Docs (Swagger)](http://localhost:8000/docs) | [📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)
 
 ---
 
@@ -18,7 +18,16 @@
 
 * **Production URL (GitHub Pages)**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
 * **Production API Service**: [https://caremate-backend.onrender.com](https://caremate-backend.onrender.com)
-* **Localhost Development Link**: [http://localhost:5173](http://localhost:5173)
+* **Isolated Local Dev Link (Port 4001)**: [http://localhost:4001/care-mate_CAIAS/](http://localhost:4001/care-mate_CAIAS/)
+
+---
+
+## 💻 Tech Stack & Frontend Framework
+
+* **Frontend Framework**: **React 18** + **Vite 5** (Modular Component Architecture in `/frontend/src`)
+* **Backend Framework**: **Python 3.10+** + **FastAPI**
+* **AI Engine**: **Google Gemini API** (`google-generativeai`) with automatic fallback mock service.
+* **Isolated Port Allocation**: CareMate AI is configured to run on dedicated port **`4001`** to prevent any port collisions with other local projects (e.g. *QuizArena* on `5173`).
 
 ---
 
@@ -33,13 +42,13 @@
 > ⚠️ **Viewing on GitHub Mobile App or Phone?**
 > `localhost` links **only open on the desktop machine** running the local server. A mobile phone on GitHub Mobile cannot open `localhost`.
 > 
-> * **📱 Mobile Access (Same Wi-Fi Network)**: Ensure your development server is running and open **[http://192.168.31.174:5173/](http://192.168.31.174:5173/)** on your phone!
-> * **💻 Desktop Access**: Open **[http://localhost:5173/](http://localhost:5173/)** in your desktop web browser.
+> * **📱 Mobile Access (Same Wi-Fi Network)**: Ensure your development server is running and open **[http://192.168.31.174:4001/care-mate_CAIAS/](http://192.168.31.174:4001/care-mate_CAIAS/)** on your phone!
+> * **💻 Desktop Access**: Open **[http://localhost:4001/care-mate_CAIAS/](http://localhost:4001/care-mate_CAIAS/)** in your desktop web browser.
 > * **🌐 Public 24/7 Web Hosting**: See **[Free Web Deployment Guide](#-free-public-web-deployment-optional)** below to deploy a public URL accessible from anywhere on mobile.
 
 | Component | Desktop Link | Mobile / Network Link | Requirements |
 | :--- | :--- | :--- | :--- |
-| **Frontend App Portal** | [`http://localhost:5173/`](http://localhost:5173/) | [`http://192.168.31.174:5173/`](http://192.168.31.174:5173/) | Run `npm run dev` in `/frontend` |
+| **Frontend App Portal** | [`http://localhost:4001/care-mate_CAIAS/`](http://localhost:4001/care-mate_CAIAS/) | [`http://192.168.31.174:4001/care-mate_CAIAS/`](http://192.168.31.174:4001/care-mate_CAIAS/) | Run `npm run dev` in `/frontend` |
 | **Backend API Server** | [`http://localhost:8000/`](http://localhost:8000/) | [`http://192.168.31.174:8000/`](http://192.168.31.174:8000/) | Run `uvicorn main:app` in `/backend` |
 | **Interactive API Docs** | [`http://localhost:8000/docs`](http://localhost:8000/docs) | [`http://192.168.31.174:8000/docs`](http://192.168.31.174:8000/docs) | Backend Server Running |
 
