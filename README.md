@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🩺 CareMate AI
 ### *Next-Generation Doctor & Patient Healthcare Portal powered by AI*
 
@@ -12,9 +10,7 @@
 
 ---
 
-**[🌐 Live Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/)** &nbsp;|&nbsp; **[📄 API Docs (Swagger)](http://localhost:8000/docs)** &nbsp;|&nbsp; **[📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)**
-
-</div>
+[🌐 Live Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/) | [📄 API Docs (Swagger)](http://localhost:8000/docs) | [📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)
 
 ---
 
