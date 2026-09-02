@@ -8,8 +8,10 @@ __pycache__/
 # Environment variables
 .env
 
-# Node dependencies
+# Node dependencies & builds
 node_modules/
+dist/
+frontend/dist/
 
 # System files
 .DS_Store

@@ -12,9 +12,17 @@
 
 ---
 
-**[💻 Local Demo (http://localhost:5173)](http://localhost:5173/)** &nbsp;|&nbsp; **[📄 API Docs (http://localhost:8000/docs)](http://localhost:8000/docs)** &nbsp;|&nbsp; **[📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)**
+**[🌐 Live Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/)** &nbsp;|&nbsp; **[📄 API Docs (Swagger)](http://localhost:8000/docs)** &nbsp;|&nbsp; **[📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)**
 
 </div>
+
+---
+
+## 🚀 Live Demo
+
+* **Production URL (GitHub Pages)**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
+* **Production API Service**: [https://caremate-backend.onrender.com](https://caremate-backend.onrender.com)
+* **Localhost Development Link**: [http://localhost:5173](http://localhost:5173)
 
 ---
 
@@ -205,6 +213,17 @@ care-mate_CAIAS/
 │           └── api.js           # Frontend API Service Module
 └── README.md
 ```
+
+---
+
+## 🌐 Deployment
+
+This project is deployed independently from the local development environment:
+
+* **Production Live Demo**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
+* **Production Backend Service**: [https://caremate-backend.onrender.com](https://caremate-backend.onrender.com)
+* **Hosting Platform**: GitHub Pages (Frontend) & Render / Vercel (Backend)
+* **Repository**: [https://github.com/Suhas-Saur/care-mate_CAIAS](https://github.com/Suhas-Saur/care-mate_CAIAS)
 
 ---
 

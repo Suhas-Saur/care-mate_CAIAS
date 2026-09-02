@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export const checkSymptoms = async (symptomsText) => {
   const response = await fetch(`${BASE_URL}/symptom-check`, {

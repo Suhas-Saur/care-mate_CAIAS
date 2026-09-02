@@ -1,0 +1,13 @@
+services:
+  # Backend FastAPI Web Service
+  - type: web
+    name: caremate-backend
+    env: python
+    region: oregon
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: PYTHON_VERSION
+        value: 3.10.0
