@@ -10,15 +10,16 @@
 
 ---
 
-[🌐 Live Production Demo (GitHub Pages)](https://suhas-saur.github.io/care-mate_CAIAS/) | [📄 API Docs (Swagger)](http://localhost:8000/docs) | [📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)
+[🌐 Live Production Demo (Vercel)](https://care-mate-caias.vercel.app/) | [📄 API Docs (Swagger)](http://localhost:8000/docs) | [📦 GitHub Repository](https://github.com/Suhas-Saur/care-mate_CAIAS)
 
 ---
 
 ## 🚀 Live Demo
 
+* **Production URL (Vercel)**: [https://care-mate-caias.vercel.app/](https://care-mate-caias.vercel.app/)
 * **Production URL (GitHub Pages)**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
 * **Production API Service**: [https://caremate-backend.onrender.com](https://caremate-backend.onrender.com)
-* **Isolated Local Dev Link (Port 4001)**: [http://localhost:4001/care-mate_CAIAS/](http://localhost:4001/care-mate_CAIAS/)
+* **Isolated Local Dev Link (Port 4000)**: [http://localhost:4000/](http://localhost:4000/)
 
 ---
 
@@ -225,9 +226,10 @@ care-mate_CAIAS/
 
 This project is deployed independently from the local development environment:
 
-* **Production Live Demo**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
+* **Production Live Demo (Vercel)**: [https://care-mate-caias.vercel.app/](https://care-mate-caias.vercel.app/)
+* **Production Live Demo (GitHub Pages)**: [https://suhas-saur.github.io/care-mate_CAIAS/](https://suhas-saur.github.io/care-mate_CAIAS/)
 * **Production Backend Service**: [https://caremate-backend.onrender.com](https://caremate-backend.onrender.com)
-* **Hosting Platform**: GitHub Pages (Frontend) & Render / Vercel (Backend)
+* **Hosting Platform**: Vercel & GitHub Pages (Frontend) & Render (Backend)
 * **Repository**: [https://github.com/Suhas-Saur/care-mate_CAIAS](https://github.com/Suhas-Saur/care-mate_CAIAS)
 
 ---
